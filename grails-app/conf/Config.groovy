@@ -122,4 +122,6 @@ log4j = {
 		   'org.apache.commons.beanutils',
 		   'org.compass.core',
 		   'org.weceem'
+		   
+	debug   'org.hibernate.SQL'
 }

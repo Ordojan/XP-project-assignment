@@ -13,12 +13,12 @@ hibernate {
 environments {
     development {
         dataSource {
-            driverClassName = "com.mysql.jdbc.Driver"
+            driverClassName = "oracle.jdbc.driver.OracleDriver"
 			dbCreate =  "create-drop"           // "create" or "update" (after you run with create-drop )
 			
-			username = "root"
-			password = ""
-			url = "jdbc:mysql://localhost/eess" 	
+			username = "knpafr1"
+			password = "knpafr1"
+			url = "jdbc:oracle:thin:@delfi.lyngbyes.dk:1521:knord" 	
         }
     }
     test {

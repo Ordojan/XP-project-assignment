@@ -1,10 +1,10 @@
-import eess.User
+import eess.Users
 
 class BootStrap {
 
     def init = { servletContext ->
 		
-		User u = new User(email: "test@test.com", password: "123")
+		Users u = new Users(email: "test@test.com", password: "123")
 		u.save();
 		
     }

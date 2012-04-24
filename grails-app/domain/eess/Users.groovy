@@ -1,6 +1,6 @@
 package eess
 
-class User {
+class Users {
 
     static constraints = {
 		email(unique:true)
