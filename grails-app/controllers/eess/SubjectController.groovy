@@ -52,6 +52,20 @@ class SubjectController {
 			render(view: "votingRound1", model: [subjectInstances: subjects])
 		}
 	}
+	
+	def showRound1Results = {
+		// get all the students who have made 2 first priority votes and 2 second priority votes
+
+		def students = Users.findAllByType("student")
+
+
+		// get the list of subjects
+		def subjects = Subject.findAll()
+		
+		render(view: "showRound1Results", model: [students: students, subjects: subjects])
+	}
+	
+	
 
     def index() {
         redirect(action: "list", params: params)

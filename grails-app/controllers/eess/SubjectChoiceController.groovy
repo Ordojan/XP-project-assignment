@@ -11,8 +11,12 @@ class SubjectChoiceController {
 	}
 
 	def list() {
-		def firstPriorityChoices = SubjectChoice.findByStudentAndPriority(session.user.id, 1)
-		def secondPriorityChoices = SubjectChoice.findByStudentAndPriority(session.user.id, 2)
+		def firstPriorityChoices = SubjectChoice.where {
+			student == session.user && priority == 1
+		}
+		def secondPriorityChoices = SubjectChoice.where {
+			student == session.user && priority == 2
+		}
 		
 		render (view: "list", model: [firstPriorityChoices: firstPriorityChoices, secondPriorityChoices: secondPriorityChoices])
 	}

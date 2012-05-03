@@ -2,22 +2,24 @@ package eess
 
 class UsersController {
 	def scaffold = Users
-	
-	def beforeInterceptor = [action:this.&auth, except:["login", "authenticate", "logout"]]
-	
+
+	def beforeInterceptor = [action:this.&auth, except:[
+			"login",
+			"authenticate",
+			"logout"
+		]]
+
 	def auth() {
 		if(!session.user) {
 			redirect(controller:"users", action:"login")
 			return false
 		}
 	}
-	
-    def index = {
-		render ("howdy")
-	}
-	
+
+	def index = { render ("howdy") }
+
 	def login = {}
-	
+
 	def authenticate = {
 		def user = Users.findByEmailAndPassword(params.email, params.password)
 		if(user){
@@ -38,4 +40,5 @@ class UsersController {
 		session.user = null
 		redirect(action:"login")
 	}
+
 }
