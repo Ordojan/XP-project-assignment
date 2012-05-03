@@ -62,11 +62,14 @@ class SubjectController {
 		// get the list of subjects
 		def subjects = Subject.findAll()
 		
-		def poolOptions = ["None", "A", "B"]
+		if (params["showResult"] || params["saveResult"]){
+			subjects.each {
+				it.pool = params["subjectPool_" + it.id]
+			}
+		}
 		
-		render(view: "showRound1Results", model: [students: students, subjects: subjects, poolOptions: poolOptions])
-	}
-	
+		render(view: "showRound1Results", model: [students: students, subjects: subjects, poolOptions: Subject.allowedPools])
+	}	
 	
 
     def index() {

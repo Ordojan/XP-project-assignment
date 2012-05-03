@@ -3,7 +3,7 @@ package eess
 import java.util.List;
 
 class Subject {
-	final static List<String> allowedPools=['A', 'B', "None"]
+	final static List<String> allowedPools=["None", 'A', 'B']
 	
 	String name
 	String description
