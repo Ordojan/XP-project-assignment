@@ -23,7 +23,7 @@
 			<g:each in="${students}" var="student">
 				<tr>
 					<td>
-						${student.name}
+						${student.name} ${student.happiness }
 					</td>
 					<g:each in="${subjects}" var="subject">
 						<td>

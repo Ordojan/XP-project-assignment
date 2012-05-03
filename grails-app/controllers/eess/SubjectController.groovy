@@ -7,7 +7,7 @@ import org.springframework.dao.DataIntegrityViolationException
 
 class SubjectController {
 
-    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 	
 	def votingRound1() {
 		def subjectInstances = Subject.list()
@@ -53,6 +53,42 @@ class SubjectController {
 		}
 	}
 	
+	//returns students sorted by their happiness
+	def arrangeStudentsByHappiness(def students, def subjects){
+		students.each { 
+			def poolA = 3
+			def poolB = 3
+			
+			//TODO: refactor
+			for (SubjectChoice choice : it.subjectChoices){
+				if (["A", "B"].contains(choice.subject.pool)){
+					if (choice.subject.pool == "A"){
+						if (poolA > choice.priority){
+							poolA = choice.priority
+						}
+					}
+					
+					if (choice.subject.pool == "B"){
+						if (poolB > choice.priority){
+							poolB = choice.priority
+							
+						}
+					}
+				}
+			}
+			
+			if (poolA == 1) it.happiness += 10
+			if (poolA == 2) it.happiness += 5
+			
+			if (poolB == 1) it.happiness += 10
+			if (poolB == 2) it.happiness += 5
+		}
+		
+		students.sort{-it.happiness}
+		
+		return students
+	}
+	
 	def showRound1Results = {
 		// get all the students who have made 2 first priority votes and 2 second priority votes
 
@@ -66,104 +102,108 @@ class SubjectController {
 			subjects.each {
 				it.pool = params["subjectPool_" + it.id]
 			}
+			
+			students = arrangeStudentsByHappiness(students, subjects)
 		}
 		
+		
+		
 		render(view: "showRound1Results", model: [students: students, subjects: subjects, poolOptions: Subject.allowedPools])
-	}	
+	}
 	
 
-    def index() {
-        redirect(action: "list", params: params)
-    }
+	def index() {
+		redirect(action: "list", params: params)
+	}
 
-    def list() {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [subjectInstanceList: Subject.list(params), subjectInstanceTotal: Subject.count()]
-    }
+	def list() {
+		params.max = Math.min(params.max ? params.int('max') : 10, 100)
+		[subjectInstanceList: Subject.list(params), subjectInstanceTotal: Subject.count()]
+	}
 
-    def create() {
-        [subjectInstance: new Subject(params)]
-    }
+	def create() {
+		[subjectInstance: new Subject(params)]
+	}
 
-    def save() {
-        def subjectInstance = new Subject(params)
-        if (!subjectInstance.save(flush: true)) {
-            render(view: "create", model: [subjectInstance: subjectInstance])
-            return
-        }
+	def save() {
+		def subjectInstance = new Subject(params)
+		if (!subjectInstance.save(flush: true)) {
+			render(view: "create", model: [subjectInstance: subjectInstance])
+			return
+		}
 
 		flash.message = message(code: 'default.created.message', args: [message(code: 'subject.label', default: 'Subject'), subjectInstance.id])
-        redirect(action: "show", id: subjectInstance.id)
-    }
+		redirect(action: "show", id: subjectInstance.id)
+	}
 
-    def show() {
-        def subjectInstance = Subject.get(params.id)
-        if (!subjectInstance) {
+	def show() {
+		def subjectInstance = Subject.get(params.id)
+		if (!subjectInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'subject.label', default: 'Subject'), params.id])
-            redirect(action: "list")
-            return
-        }
+			redirect(action: "list")
+			return
+		}
 
-        [subjectInstance: subjectInstance]
-    }
+		[subjectInstance: subjectInstance]
+	}
 
-    def edit() {
-        def subjectInstance = Subject.get(params.id)
-        if (!subjectInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'subject.label', default: 'Subject'), params.id])
-            redirect(action: "list")
-            return
-        }
+	def edit() {
+		def subjectInstance = Subject.get(params.id)
+		if (!subjectInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'subject.label', default: 'Subject'), params.id])
+			redirect(action: "list")
+			return
+		}
 
-        [subjectInstance: subjectInstance]
-    }
+		[subjectInstance: subjectInstance]
+	}
 
-    def update() {
-        def subjectInstance = Subject.get(params.id)
-        if (!subjectInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'subject.label', default: 'Subject'), params.id])
-            redirect(action: "list")
-            return
-        }
+	def update() {
+		def subjectInstance = Subject.get(params.id)
+		if (!subjectInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'subject.label', default: 'Subject'), params.id])
+			redirect(action: "list")
+			return
+		}
 
-        if (params.version) {
-            def version = params.version.toLong()
-            if (subjectInstance.version > version) {
-                subjectInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
-                          [message(code: 'subject.label', default: 'Subject')] as Object[],
-                          "Another user has updated this Subject while you were editing")
-                render(view: "edit", model: [subjectInstance: subjectInstance])
-                return
-            }
-        }
+		if (params.version) {
+			def version = params.version.toLong()
+			if (subjectInstance.version > version) {
+				subjectInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
+						  [message(code: 'subject.label', default: 'Subject')] as Object[],
+						  "Another user has updated this Subject while you were editing")
+				render(view: "edit", model: [subjectInstance: subjectInstance])
+				return
+			}
+		}
 
-        subjectInstance.properties = params
+		subjectInstance.properties = params
 
-        if (!subjectInstance.save(flush: true)) {
-            render(view: "edit", model: [subjectInstance: subjectInstance])
-            return
-        }
+		if (!subjectInstance.save(flush: true)) {
+			render(view: "edit", model: [subjectInstance: subjectInstance])
+			return
+		}
 
 		flash.message = message(code: 'default.updated.message', args: [message(code: 'subject.label', default: 'Subject'), subjectInstance.id])
-        redirect(action: "show", id: subjectInstance.id)
-    }
+		redirect(action: "show", id: subjectInstance.id)
+	}
 
-    def delete() {
-        def subjectInstance = Subject.get(params.id)
-        if (!subjectInstance) {
+	def delete() {
+		def subjectInstance = Subject.get(params.id)
+		if (!subjectInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'subject.label', default: 'Subject'), params.id])
-            redirect(action: "list")
-            return
-        }
+			redirect(action: "list")
+			return
+		}
 
-        try {
-            subjectInstance.delete(flush: true)
+		try {
+			subjectInstance.delete(flush: true)
 			flash.message = message(code: 'default.deleted.message', args: [message(code: 'subject.label', default: 'Subject'), params.id])
-            redirect(action: "list")
-        }
-        catch (DataIntegrityViolationException e) {
+			redirect(action: "list")
+		}
+		catch (DataIntegrityViolationException e) {
 			flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'subject.label', default: 'Subject'), params.id])
-            redirect(action: "show", id: params.id)
-        }
-    }
+			redirect(action: "show", id: params.id)
+		}
+	}
 }

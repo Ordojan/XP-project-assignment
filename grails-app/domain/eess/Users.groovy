@@ -9,6 +9,10 @@ class Users {
 	String email
 	String password
 	
+	int happiness = 0
+	
+	static transients = ["happiness"]
+	
 	static hasMany = [proposedSubjects: Subject, subjectChoices: SubjectChoice]
 	
     static constraints = {
