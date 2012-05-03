@@ -3,11 +3,11 @@ package eess
 import java.util.List;
 
 class Subject {
-	final static List<String> allowedPools=['A', 'B']
+	final static List<String> allowedPools=['A', 'B', "None"]
 	
 	String name
 	String description
-	String pool
+	String pool = "None"
 	
 	
 	static hasMany = [students: SubjectChoice]
@@ -18,7 +18,7 @@ class Subject {
 		description(nullable:true)
 		owner(nullable:true)
 		pool(nullable: true, validator:{val ->
-			if(!SubjectChoice.allowedPools.contains(val)) {
+			if(!Subject.allowedPools.contains(val)) {
 				return "Invalid pool"
 			}
 		})

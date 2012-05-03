@@ -8,12 +8,14 @@
 <body>
 	<div class="body">
 
+	<g:form action="saveSubjectsForRound2" method="post">
 		<table border="1" cellpadding="5" cellspacing="5" width="100%">
 			<tr>
 				<th>Students</th>
 				<g:each in="${subjects}" var="subject">
 					<th>
 						${subject}
+						<g:select name="subjectPool_${subject.id}" from="${poolOptions}" />
 					</th>
 				</g:each>
 			</tr>
@@ -36,8 +38,14 @@
 					</g:each>
 				</tr>
 			</g:each>
+			<tr>
+				<td>
+					<input type = "submit" name ="saveResult" value = "Save">
+					<input type = "submit" name = "showResult" value = "Show Result">
+				</td>				
+			</tr>
 		</table>
-
+	</g:form>
 	</div>
 </body>
 </html>

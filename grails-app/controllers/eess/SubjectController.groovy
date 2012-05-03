@@ -62,7 +62,9 @@ class SubjectController {
 		// get the list of subjects
 		def subjects = Subject.findAll()
 		
-		render(view: "showRound1Results", model: [students: students, subjects: subjects])
+		def poolOptions = ["None", "A", "B"]
+		
+		render(view: "showRound1Results", model: [students: students, subjects: subjects, poolOptions: poolOptions])
 	}
 	
 	
