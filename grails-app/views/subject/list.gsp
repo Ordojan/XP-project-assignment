@@ -29,6 +29,7 @@
 						<g:sortableColumn property="name" title="${message(code: 'subject.name.label', default: 'Name')}" />
 					
 						<th><g:message code="subject.owner.label" default="Owner" /></th>
+						<th>Delete</th>
 					
 					</tr>
 				</thead>
@@ -41,6 +42,12 @@
 						<td>${fieldValue(bean: subjectInstance, field: "name")}</td>
 					
 						<td>${fieldValue(bean: subjectInstance, field: "owner")}</td>
+						
+						<td>
+							<g:form method="post" action="delete" id="${subjectInstance.id }" >
+								<g:actionSubmit class="delete" value="Delete" onclick="return confirm('Are you sure?');" />
+							</g:form>
+						</td>
 					
 					</tr>
 				</g:each>

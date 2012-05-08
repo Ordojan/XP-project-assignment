@@ -84,7 +84,7 @@ class SubjectController {
 			if (poolB == 2) it.happiness += 5
 		}
 		
-		students.sort{-it.happiness}
+		students.sort{it.happiness}
 		
 		return students
 	}
