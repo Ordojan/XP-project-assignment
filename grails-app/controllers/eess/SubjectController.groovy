@@ -26,7 +26,7 @@ class SubjectController {
 				if (params['choice_' + s.id] == "1") firstPriorityCount++
 				if (params['choice_' + s.id] == "2") secoundPriorityCount++
 				
-				selectedSubjects.add(new SubjectChoice(student: session.user, subject: s, priority: params['choice_' + s.id]))
+				selectedSubjects.add(new SubjectChoice(student: session.user, subject: s, priority: params['choice_' + s.id], round:1))
 			}
 		}
 		/*subjects.each {
@@ -204,6 +204,33 @@ class SubjectController {
 		catch (DataIntegrityViolationException e) {
 			flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'subject.label', default: 'Subject'), params.id])
 			redirect(action: "show", id: params.id)
+		}
+	}
+	
+	def votingRound2() {
+		def poolASubjects = Subject.where {
+			pool=="A"
+		}
+		def poolBSubjects = Subject.where {
+			pool=="B"
+		}
+		render(view: "votingRound2", model: [poolASubjects: poolASubjects, poolBSubjects: poolBSubjects])
+	}
+	
+	def saveVotingRound2(){
+		def subjectPoolA = Subject.get(params["PoolA"])
+		def subjectPoolB = Subject.get(params["PoolB"])
+		
+		if (subjectPoolA != null && subjectPoolB != subjectPoolB) {
+			new SubjectChoice(student: session.user, subject: subjectPoolA, round:2).save()
+			new SubjectChoice(student: session.user, subject: subjectPoolB, round:2).save()
+			
+			flash.message = "congrats, your choices were saved"
+			redirect(controller: "SubjectChoice", action: 'list')
+		}
+		else {
+			flash.message = "you need to choose 2 first priorities and 2 second ones"
+			redirect(view: "votingRound1", model: [subjectInstances: subjects])
 		}
 	}
 }
