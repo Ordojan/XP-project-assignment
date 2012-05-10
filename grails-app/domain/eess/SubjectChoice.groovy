@@ -4,6 +4,7 @@ import java.util.List;
 
 class SubjectChoice {
 	
+	int round
 	
 	int priority	//primary or secondary 
 	

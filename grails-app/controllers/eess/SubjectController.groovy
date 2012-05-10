@@ -1,8 +1,7 @@
 package eess
 
-import java.util.List;
+import grails.converters.JSON
 
-import org.apache.jasper.compiler.Node.ParamsAction;
 import org.springframework.dao.DataIntegrityViolationException
 
 class SubjectController {
@@ -232,5 +231,13 @@ class SubjectController {
 			flash.message = "you need to choose 2 first priorities and 2 second ones"
 			redirect(view: "votingRound1", model: [subjectInstances: subjects])
 		}
+	}
+	
+	def getSubject(){
+		def subject = Subject.get(params["id"])
+		
+		def map = ["id": subject.id, "name": subject.name, "teacher": subject.owner?.name, "description": subject.description]
+		
+		render map as JSON
 	}
 }

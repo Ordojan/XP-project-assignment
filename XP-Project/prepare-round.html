@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Electronic Elective Subject System</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="">
+		<meta name="author" content="">
+
+		<!-- Le styles -->
+		<link href="assets/css/bootstrap.css" rel="stylesheet">
+		<link href="assets/css/site.css" rel="stylesheet">
+		<link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
+		<script type="text/javascript"></script>
+		<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+		<!--[if lt IE 9]>
+		  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="container">
+		
+			<header>
+				<div class="page-header row">
+					<div class="span8">
+						<h1>Prepare 2nd Round</h1>
+					</div>
+					
+					<span class="span4" style="text-align:right;">
+						<strong>Andrius Ordojan</strong>
+						<button class="btn btn-small">Sign out</button>
+					</span>
+				</div>
+			</header>
+			
+			<section id="all-subjects">
+				<div class="row">
+					<table class="table table-striped" id="subjects">
+						<thead>
+							<tr>
+							    <th style="vertical-align: middle;">
+									<h3>#</h3>
+								</th>
+								
+								<th style="vertical-align: middle;">
+									<h3>Submiters</h3>
+								</th>
+
+								<th data-id="1">
+									<h3>Machine Learning</h3>
+										<div class="btn-group switches" data-toggle="buttons-checkbox">
+											<button class="btn btn-small">A</button><button class="btn btn-small">B</button>
+										</div>
+								</th>
+
+								<th data-id="2">
+									<h3>C#</h3>
+									<div class="btn-group switches" data-toggle="buttons-checkbox">
+										<button class="btn btn-small">A</button><button class="btn btn-small">B</button>
+									</div>
+								</th>
+
+								<th data-id="3">
+									<h3>Android</h3>
+									<div class="btn-group switches" data-toggle="buttons-checkbox">
+										<button class="btn btn-small">A</button><button class="btn btn-small">B</button>
+									</div>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+							    <td>
+									<h4>1</h4>
+								</td>
+								<td>
+									<h4>Andrius Ordojan</h4>
+								</td>
+								<td>
+									<span class="badge badge-success">1st</span>
+								</td>	
+								<td>
+
+								</td>	
+								<td>
+									<span class="badge badge-warning">2nd</span>
+								</td>	
+							</tr>
+							<tr>
+							    <td>
+									<h4>2</h4>
+								</td>
+								<td>
+									<h4>Pete Peterson</h4>
+								</td>
+								<td>
+									<span class="badge badge-warning">2nd</span>
+								</td>	
+								<td>
+									<span class="badge badge-success">1st</span>									
+								</td>	
+								<td>
+
+								</td>	
+							</tr>
+							<tr>
+							    <td>
+									<h4>3</h4>
+								</td>
+								
+								<td>
+									<h4>John Johnson</h4>
+								</td>
+								<td>
+									
+								</td>	
+								<td>
+									<span class="badge badge-success">1st</span>								
+								</td>	
+								<td>
+									<span class="badge badge-warning">2nd</span>
+								</td>	
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+
+			<section id="pools"> 
+				<div class="row">
+					<div class="span12" id="pools">
+						<div class="row">
+							<div class="span6">
+								<div class="page-header row">
+									<h1 class="span6">Pool A</h1>
+								</div>
+								
+								<div class="row">
+									<table class="table table-striped" id="pool-a">
+										<thead>
+											<tr>
+												<th>#</th>
+												<th>Name</th>
+												<th>Description</th>
+												<th>Teacher</th>
+												<th>Actions</th>
+											</tr>
+										</thead>
+										<tbody>
+										</tbody>
+									</table>
+								</div>
+							</div>
+
+							<div class="span6">
+								<div class="page-header row">
+									<h1 class="span6">Pool B</h1>
+								</div>
+						
+								<div class="row">
+									<table class="table table-striped" id="pool-b">
+										<thead>
+											<tr>
+												<th>#</th>
+												<th>Name</th>
+												<th>Description</th>
+												<th>Teacher</th>
+												<th>Actions</th>
+											</tr>
+										</thead>
+										<tbody>
+										</tbody>
+									</table>
+								</div>
+						
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			
+			<div class="row" id="start-round">
+				<button type="button" class="btn btn-large btn-primary" id='start-round-btn'>Start 2nd Round</button>			
+			</div>
+		</div> <!-- /container -->
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+		<script src="assets/js/bootstrap.min.js"></script>
+		<script src="assets/js/application.js"></script>
+		<script src="assets/js/prepare-round.js"></script>
+
+	</body>
+</html>

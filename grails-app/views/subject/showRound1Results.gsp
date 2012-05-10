@@ -6,46 +6,118 @@
 <title>Showing Round 1 Results</title>
 </head>
 <body>
-	<div class="body">
-
-	<g:form action="showRound1Results" method="post">
-		<table border="1" cellpadding="5" cellspacing="5" width="100%">
-			<tr>
-				<th>Students</th>
-				<g:each in="${subjects}" var="subject">
-					<th>
-						${subject}
-						<g:select name="subjectPool_${subject.id}" from="${poolOptions}" value="${subject.pool }" />
-					</th>
-				</g:each>
-			</tr>
-
-			<g:each in="${students}" var="student">
-				<tr>
-					<td>
-						${student.name} ${student.happiness }
-					</td>
-					<g:each in="${subjects}" var="subject">
-						<td>
-							<%--<g:if test="${student.subjectChoices.contains(subject)}">
-								--%><g:each in="${student.subjectChoices}" var="subjectChoice">
-									<g:if test="${subjectChoice.subject == subject}">
-										${subjectChoice.priority}
-									</g:if>
+<section id="all-subjects">
+				<div class="row">
+					<table class="table table-striped" id="subjects">
+						<thead>
+							<tr>
+							    <th style="vertical-align: middle;">
+									<h3>#</h3>
+								</th>
+								
+								<th style="vertical-align: middle;">
+									<h3>Students</h3>
+								</th>
+								<g:each in="${subjects}" var="subject">
+									<th data-id="${subject.id }">
+										<h3>${subject}</h3>
+										<div class="btn-group switches" data-toggle="buttons-checkbox">
+											<button class="btn btn-small">A</button><button class="btn btn-small">B</button>
+										</div>
+									</th>
 								</g:each>
-							<%--</g:if>
-						--%></td>
-					</g:each>
-				</tr>
-			</g:each>
-			<tr>
-				<td colspan="1000">
-					<input type = "submit" name ="saveResult" value = "Save">
-					<input type = "submit" name = "showResult" value = "Show Result">
-				</td>				
-			</tr>
-		</table>
-	</g:form>
+							</tr>
+						</thead>
+						<tbody>
+						
+							<g:each in="${students}" var="student" status="i">
+								<tr>
+									<td>
+										<h4>${i + 1}</h4>
+									</td>
+									<td>
+										<h4>${student.name} ${student.happiness }</h4>
+									</td>
+									<g:each in="${subjects}" var="subject">
+										<td>
+											<g:each in="${student.subjectChoices}" var="subjectChoice">
+												<g:if test="${subjectChoice.subject == subject}">
+													<g:if test="${subjectChoice.priority == 1}">
+														<span class="badge badge-success">1st</span>
+													</g:if>
+													<g:else>
+														<span class="badge badge-warning">2nd</span>
+													</g:else>
+												</g:if>
+											</g:each>
+										</td>
+									</g:each>
+								</tr>
+							</g:each>
+						</tbody>
+					</table>
+				</div>
+			</section>
+
+			<section id="pools"> 
+				<div class="row">
+					<div class="span12" id="pools">
+						<div class="row">
+							<div class="span6">
+								<div class="page-header row">
+									<h1 class="span6">Pool A</h1>
+								</div>
+								
+								<div class="row">
+									<table class="table table-striped" id="pool-a">
+										<thead>
+											<tr>
+												<th>#</th>
+												<th>Name</th>
+												<th>Description</th>
+												<th>Teacher</th>
+												<th>Actions</th>
+											</tr>
+										</thead>
+										<tbody>
+										</tbody>
+									</table>
+								</div>
+							</div>
+
+							<div class="span6">
+								<div class="page-header row">
+									<h1 class="span6">Pool B</h1>
+								</div>
+						
+								<div class="row">
+									<table class="table table-striped" id="pool-b">
+										<thead>
+											<tr>
+												<th>#</th>
+												<th>Name</th>
+												<th>Description</th>
+												<th>Teacher</th>
+												<th>Actions</th>
+											</tr>
+										</thead>
+										<tbody>
+										</tbody>
+									</table>
+								</div>
+						
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			
+			<div class="row" id="start-round">
+				<button type="button" class="btn btn-large btn-primary" id='start-round-btn'>Start 2nd Round</button>			
+			</div>
+
+		
 	</div>
+	<g:javascript src="prepare-round.js"></g:javascript>
 </body>
 </html>

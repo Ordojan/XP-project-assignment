@@ -1,0 +1,59 @@
+#sign-in {
+	border-style: solid;
+	border-color: lightgray;
+	border-width: 1px;
+	border-radius: 10px;
+	padding-top: 15px;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-bottom: 5px;
+	margin: 0 auto;
+	width: 368px;
+}
+
+#sign-in-form input {
+	padding: 15px;
+}
+
+#sign-in-form .control-group {
+	margin-left: 35px;
+}
+
+#sign-in-form button[type=submit] {
+	margin-left: 83px;
+}
+
+#sign-in small {
+	color: #888;
+	font-size: small;
+	text-align: center;
+}
+
+#page-title {
+	margin-top: 50px;
+	margin-bottom: 25px;
+	text-align: center;
+}
+
+/*div#add-proposal {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}*/
+
+div#start-round {
+	margin-top: 10px;
+}
+
+table#subjects th,
+table#subjects td {
+	text-align: center;
+}
+
+.switches.btn-group  .btn  {
+float: none;
+}
+
+.switches button {
+	text-align:center;
+}
+
