@@ -21,7 +21,7 @@ class SubjectController {
 		def selectedSubjects = [] //empty list
 		
 		for (Subject s : subjects) {
-			if (params['choice_' + s.id] > 0){
+			if (params['choice_' + s.id] != null && Integer.parseInt(params['choice_' + s.id]) > 0){
 				if (params['choice_' + s.id] == "1") firstPriorityCount++
 				if (params['choice_' + s.id] == "2") secoundPriorityCount++
 				
@@ -217,20 +217,53 @@ class SubjectController {
 	}
 	
 	def saveVotingRound2(){
-		def subjectPoolA = Subject.get(params["PoolA"])
-		def subjectPoolB = Subject.get(params["PoolB"])
+		def poolASubjects = Subject.where {
+			pool=="A"
+		}
+		def poolBSubjects = Subject.where {
+			pool=="B"
+		}
 		
-		if (subjectPoolA != null && subjectPoolB != subjectPoolB) {
-			new SubjectChoice(student: session.user, subject: subjectPoolA, round:2).save()
-			new SubjectChoice(student: session.user, subject: subjectPoolB, round:2).save()
-			
+		int firstPriorityCountPoolA = 0
+		int secoundPriorityCountPoolA = 0
+		
+		int firstPriorityCountPoolB = 0
+		int secoundPriorityCountPoolB = 0
+		
+		def selectedSubjects = [] //empty list
+		
+		for (Subject s : poolASubjects) {
+			if (params['choice_' + s.id] != null && Integer.parseInt(params['choice_' + s.id]) > 0){
+				if (params['choice_' + s.id] == "1") firstPriorityCountPoolA++
+				if (params['choice_' + s.id] == "2") secoundPriorityCountPoolA++
+				
+				selectedSubjects.add(new SubjectChoice(student: session.user, subject: s, priority: params['choice_' + s.id], round:2))
+			}
+		}
+		for (Subject s : poolBSubjects) {
+			if (params['choice_' + s.id] != null && Integer.parseInt(params['choice_' + s.id]) > 0){
+				if (params['choice_' + s.id] == "1") firstPriorityCountPoolB++
+				if (params['choice_' + s.id] == "2") secoundPriorityCountPoolB++
+				
+				selectedSubjects.add(new SubjectChoice(student: session.user, subject: s, priority: params['choice_' + s.id], round:2))
+			}
+		}
+		if (secoundPriorityCountPoolA == 1 && firstPriorityCountPoolA == 1 && secoundPriorityCountPoolB == 1 && firstPriorityCountPoolB == 1) {
+			selectedSubjects.each {
+				//TODO make transaction
+				it.save()
+			}
+						
 			flash.message = "congrats, your choices were saved"
 			redirect(controller: "SubjectChoice", action: 'list')
 		}
 		else {
-			flash.message = "you need to choose 2 first priorities and 2 second ones"
-			redirect(view: "votingRound1", model: [subjectInstances: subjects])
+			
+			flash.message = "you need to choose 1 first priorities and 1 second ones in each Pool"
+			render(view: "votingRound2", model: [poolASubjects: poolASubjects, poolBSubjects: poolBSubjects])
 		}
+		
+		
 	}
 	
 	def getSubject(){
@@ -241,3 +274,5 @@ class SubjectController {
 		render map as JSON
 	}
 }
+
+
